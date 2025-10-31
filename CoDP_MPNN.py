@@ -67,7 +67,7 @@ def run_selection_process(sequences, packed_paths, evaluator, scaffold_path, num
     if target_num_seqs == 0:
         target_num_seqs = 1 
     while len(current_data) > target_num_seqs:
-        batch_size = 4 # max number of sequences to process in one batch
+        # max number of sequences to process in one batch
         all_scores_for_round = []
         
         # in batch to predict
@@ -113,9 +113,9 @@ def run_selection_process(sequences, packed_paths, evaluator, scaffold_path, num
             # Find the current sequence's score from the final round
             final_score = 0
             for item in all_scores_for_round:  # Ensure all_scores_for_round contains complete final round data
-            if item[0] == seq and item[1] == packed:
-                final_score = item[2]
-                break
+                if item[0] == seq and item[1] == packed:
+                    final_score = item[2]
+                    break
         
         final_results.append((seq, packed, 0, 0, 0, final_score))
 
@@ -138,7 +138,8 @@ def main():
     if args.esmhead:
         checkpoints_to_run = os.path.dirname(os.path.abspath(__file__))+ "/ckpt/epoch_1_without_esm2.pth"
         ##! need change
-        esm_name = "facebook/esm2_t33_650M_UR50D"
+        esm_name = "/home/fangmc/.cache/huggingface/hub/models--facebook--esm2_t33_650M_UR50D"
+        
         evaluator = ESMEvaluator(checkpoints_to_run,esm_name)
         mpnn_config_dict["num_seqs"] = args.num_seqs
         mpnn_config_dict["num_seqs"] = mpnn_config_dict["num_seqs"] * 8
@@ -184,7 +185,7 @@ def main():
             #scores = evaluator.predict(sequences, scaffold_path)
             #interaction_data = [(seq, packed, 0, 0, 0, score) for seq, packed, score in zip(sequences, packed_paths, scores)]
             #original_length_sequences = sorted(interaction_data, key=lambda x: -x[5])[:num_seqs]
-            batchsizes = [2, 4, 8]
+            batchsizes = [8, 4, 2]
             last_error = None
 
             for batchsize in batchsizes:

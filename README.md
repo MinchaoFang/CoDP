@@ -3,24 +3,29 @@
 
 Integrated with HalluDesign, the CoDP model serves as a fast, distogram-based ranking tool. It leverages contrastive learning to quickly screen sequences by their predicted structural compatibility, facilitating a more efficient design cycle. This capability directly enhances the stability of monomeric proteins and improves the specificity of protein-ligand interactions.
 
-we also directly implementing modified LigandMPNN in our code.
+we also implement modified LigandMPNN in our code.
 
 # Installation
-if your already installied HalluDesign, you no need to install in this way.
+if your already installied HalluDesign, you no need to install this.
 ```
 mamba create -n CoDP python==3.11
-
-# for Ligandmpnn
+conda activate CoDP
+# for LigandmpnnY
 cd LigandMPNN 
-pip3 install -r requirements.txt
+pip install -r requirements.txt
+pip install transformers==4.49.0
 bash get_model_params.sh "./model_params"
 ```
 # Inference
 ```
-python /CoDP_MPNN.py --input_file .pdb --output_dir ./test --mpnn ligand_mpnn --esmhead
+python CoDP_MPNN.py --input_file .pdb --output_dir ./test --mpnn ligand_mpnn --esmhead
+# you need to download 
+CoDP_MPNN.py [-h] [--pdb_list PDB_LIST] [--input_file INPUT_FILE] [--fix_res_index FIX_RES_INDEX]
+                    [--fix_chain_index FIX_CHAIN_INDEX] --output_dir OUTPUT_DIR [--num_seqs NUM_SEQS] [--esmhead]
+                    [--mpnn MPNN] [--mpnn_temperature MPNN_TEMPERATURE]
+
 ```
 # Training
-all code are under 
 the dataset we used for training are not able to realase now. But we release our training code.
 ```
 python train_contact.py
@@ -49,4 +54,6 @@ python train_contractive.py
 ```
 # License
 The CoDP project, including both the source code and model weights, is licensed under the [MIT License](LICENSE)
+
+
 LigandMPNN project (https://github.com/dauparas/LigandMPNN), is licensed under the [MIT License](LICENSE)
