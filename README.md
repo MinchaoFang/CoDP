@@ -6,7 +6,7 @@ Integrated with HalluDesign, the CoDP model serves as a fast, distogram-based ra
 We also implement modified LigandMPNN in our code.
 
 # Installation
-if your already installied HalluDesign, you no need to install this package.
+if your already installed HalluDesign, you no need to install this package.
 ```
 mamba create -n CoDP python==3.11
 conda activate CoDP
@@ -26,7 +26,12 @@ CoDP_MPNN.py [-h] [--pdb_list PDB_LIST] [--input_file INPUT_FILE] [--fix_res_ind
 
 ```
 # Training
-The dataset we used for training are not able to realase now. But we release our training code.
+We release our training code and dataset.
+
+```
+https://doi.org/10.5281/zenodo.19650179
+```
+
 ```
 python train_contact.py
 python train_contractive.py
