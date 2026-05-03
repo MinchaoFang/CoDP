@@ -26,10 +26,10 @@ import shutil
 
 def copy_current_file_to_folder(destination_folder):
     """
-    将当前运行的 Python 文件复制到指定的文件夹。
+    Copy the currently running Python file to the specified folder.
 
-    参数:
-        destination_folder (str): 目标文件夹路径。
+    Args:
+        destination_folder (str): Path to the destination folder.
     """
     # get the current file path
 
@@ -100,7 +100,7 @@ class CroppedLengthBucketedBatchSampler(Sampler):
             # split into batches
             for i in range(0, len(bucket_indices), self.batch_size):
                 batch = bucket_indices[i:i + self.batch_size]
-                if batch:  # 确保批次非空
+                if batch:  # make sure batch is not empty
                     batches.append(batch)
         random.shuffle(batches)
         return batches
@@ -196,9 +196,9 @@ def distogram(
 
     square_mask = pseudo_beta_mask[..., None] * pseudo_beta_mask[..., None, :]
     bins = bins_setting['num_bins']
-    true_bins_one_hot = torch.nn.functional.one_hot(true_bins, num_classes=bins).float()  # 形状 (B, L, L, bins)
+    true_bins_one_hot = torch.nn.functional.one_hot(true_bins, num_classes=bins).float()  # shape (B, L, L, bins)
 
-    true_bins_one_hot *= square_mask[..., None]  # 广播到 (B, L, L, bins)
+    true_bins_one_hot *= square_mask[..., None]  # broadcast to (B, L, L, bins)
 
 
     return true_bins_one_hot, square_mask
@@ -223,23 +223,22 @@ class MaximizeCosineSimilarityLoss(nn.Module):
 
     def forward(self, z_i, z_j):
         """
-        输入:
-        - z_i: 正样本的 embedding，形状 [batch_size, embedding_dim]
-        - z_j: 与 z_i 对应的正样本的 embedding，形状 [batch_size, embedding_dim]
+        Inputs:
+        - z_i: Embeddings of positive samples, shape [batch_size, embedding_dim]
+        - z_j: Embeddings of corresponding positive pairs for z_i, shape [batch_size, embedding_dim]
 
-        输出:
-        - loss: 通过最大化余弦相似度计算的损失
-
+        Output:
+        - loss: Loss computed by maximizing cosine similarity between paired embeddings
         """
-        # 对 embedding 进行 L2 归一化
+        # normalize embedding vectors to unit length
 
-        z_i = F.normalize(z_i, p=2, dim=1)  # 归一化到单位向量
+        z_i = F.normalize(z_i, p=2, dim=1)  # normalize z_i
 
         z_j = F.normalize(z_j, p=2, dim=1)
 
-        # 计算每对样本的余弦相似度
+        # Compute cosine similarity for each pair of samples
 
-        cosine_sim = F.cosine_similarity(z_i, z_j, dim=1)  # 计算每个样本对的余弦相似度
+        cosine_sim = F.cosine_similarity(z_i, z_j, dim=1)  # cosine similarity for each sample pair
 
         loss = cosine_sim.mean()
 
